@@ -69,7 +69,7 @@ void run(char** arguments, int background)
   {
     //child process
 
-    if(execvp(arguments[1], arguments) == -1)
+    if(execvp(arguments[1], &arguments[1]) == -1)
     {
       printf("Running %s failed\n", arguments[1]);
     }
@@ -131,7 +131,7 @@ void piping(char** arguments)
     //reading output from first program
     dup2(pipefd[1], STDOUT_FILENO);
     close(pipefd[1]);
-    execvp(cmd1[1], cmd1);
+    execvp(cmd1[1], &cmd1[1]);
   }
   else
   {
@@ -143,7 +143,7 @@ void piping(char** arguments)
     {
     dup2(pipefd[0], STDIN_FILENO);
     close(pipefd[0]);
-    execvp(cmd2[1], cmd2);
+    execvp(cmd2[1], &cmd2[1]);
     }
     else{
       wait(NULL);
@@ -170,7 +170,7 @@ void redirecting(char** arguments)
     if(strcmp(arguments[0], "ex") == 0)
     {
 
-      if(execvp(arguments[1], arguments) == -1)
+      if(execvp(arguments[1], &arguments[1]) == -1)
       {
         printf("running %s failed\n", arguments[1]);
         system("setterm -bold off");
@@ -179,7 +179,7 @@ void redirecting(char** arguments)
     }
     else
     {
-      if(execvp(arguments[0], arguments) == -1)
+      if(execvp(arguments[0], &arguments[0]) == -1)
       {
         printf("running %s failed\n", arguments[0]);
         exit(1);
